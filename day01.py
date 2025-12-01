@@ -6,7 +6,8 @@ ftest = os.path.join(dir, 'day01_test.txt')
 finput = os.path.join(dir, 'day01_input.txt')
 
 def to_m_n(s):
-    m = -1 if s[0] == 'L' else +1
+    # "Lxxx" or "Rxxx"
+    m = -1 if s[0] == 'L' else +1 #R
     n = int(s[1:])
     return m, n
 
@@ -16,7 +17,7 @@ def part1(fname):
     pos = 50
     for s in utils.f2lines(fname):
         m, n = to_m_n(s)
-        pos = (pos + 100 + m * n) % 100
+        pos = (pos + m * n) % 100
         if pos == 0:
             res += 1
     return res

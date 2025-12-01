@@ -1,2 +1,2 @@
-# AoC2024py
-Advent of Code 2024 in python
+# AoC2025py
+Advent of Code 2025 in python
