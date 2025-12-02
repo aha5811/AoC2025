@@ -1,6 +1,5 @@
 import utils
 import os.path
-from math import floor
 
 dir_ = os.path.dirname(__file__)
 ftest = os.path.join(dir_, 'day01_test.txt')
@@ -35,7 +34,7 @@ def part2(fname: str) -> int:
     pos = start_pos
     for s in utils.f2lines(fname):
         m, n = to_m_n(s)
-        res += floor(n / 100) # multiple turns
+        res += n // 100 # multiple turns
         n %= 100
         pos_next = pos + m * n
         if pos_next > 100 or pos_next < 0 < pos: # went over 0
