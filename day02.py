@@ -1,8 +1,6 @@
 import utils
 import os.path
-from textwrap import wrap
 from math import floor
-
 from utils import f2lines
 
 dir = os.path.dirname(__file__)
@@ -41,14 +39,18 @@ def part2(fname):
 def is_invalid_2(id):
     s = str(id)
     l = len(s)
-    for pl in range(floor(l / 2), 0, -1):
+    for pl in range(1, floor(l / 2) + 1):
         if l % pl == 0:
-            # this could be much faster
-            parts = wrap(s, pl)
-            if parts.count(parts[0]) == len(parts): # all the same
+            all_eq = True
+            first = s[:pl]
+            for i in range(1, int(l / pl)):
+                if first != s[i * pl : (i + 1) * pl]:
+                    all_eq = False
+                    break
+            if all_eq:
                 return True
     return False
 
 def do2():
     assert 4174379265 == part2(ftest)
-    assert 24774350322 == part2(finput) # 36.5s
+    assert 24774350322 == part2(finput) # 2.5s
