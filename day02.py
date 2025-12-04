@@ -67,7 +67,19 @@ def n_repeat_regex(id_: str) -> bool:
 
 # ----------------------------
 
+@utils.timeit
+def part2_fast(fname: str) -> int:
+    return part(fname, n_repeat_fast)
+
+# from https://stackoverflow.com/a/55840779
+
+def n_repeat_fast(id_: str) -> bool:
+    return (id_ + id_).index(id_, 1) != len(id_)
+
+# ----------------------------
+
 def do2():
     assert 4174379265 == part2(ftest)
-    assert 24774350322 == part2(finput) # 2.6s
-    assert 24774350322 == part2_regex(finput)  # 1.2s
+    # assert 24774350322 == part2(finput) # 2.6s
+    # assert 24774350322 == part2_regex(finput)  # 1.2s
+    assert 24774350322 == part2_fast(finput) # 0.6s
