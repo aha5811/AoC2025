@@ -32,28 +32,45 @@ def do1():
 def part2naive(fname: str) -> int:
     ids = set()
     for l in utils.f2lines(fname):
-        if len(l) > 0:
-            if '-' in l:
-                range_ = list(map(int, l.split('-')))
-                for n in range(range_[0], range_[1] + 1):
-                    ids.add(n)
+        if '-' in l:
+            range_ = list(map(int, l.split('-')))
+            for n in range(range_[0], range_[1] + 1):
+                ids.add(n)
     return len(ids)
+
+class Range:
+    def __init__(self, start: int, end: int):
+        self.start = start
+        self.end = end
 
 @utils.timeit
 def part2proper(fname: str) -> int:
-    ranges = []
-    for l in utils.f2lines(fname):
-        if len(l) > 0:
-            if '-' in l:
-                ranges.append(list(map(int, l.split('-'))))
-
-    # TODO
+    ranges = list(
+        map(lambda t: Range(t[0], t[1]),
+            map(lambda l: tuple(map(int, l.split('-'))),
+                filter(lambda l: '-' in l,
+                       utils.f2lines(fname)))))
     # merge ranges
-    # result is sum of ranges lengths
-
-    return -1
-
+    while True:
+        merged = None
+        for r1 in ranges:
+            for r2 in ranges:
+                if (r1 == r2 or                                 # same
+                    r1.start > r2.end or r1.end < r2.start):    # disjunct
+                    continue
+                r2.start = min(r1.start, r2.start)
+                r2.end = max(r1.end, r2.end)
+                merged = r1
+                break
+            if merged:
+                break
+        if merged:
+            ranges.remove(merged)
+        else:
+            break
+    return sum(map(lambda r: r.end - r.start + 1, ranges))
 
 def do2():
     assert 14 == part2naive(ftest)
-    assert 0 == part2proper(finput)
+    assert 14 == part2proper(ftest)
+    assert 352716206375547 == part2proper(finput)

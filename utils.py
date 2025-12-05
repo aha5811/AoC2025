@@ -12,7 +12,7 @@ def timeit(func: callable):
         return result
     return timeit_wrapper
 
-def f2lines(fname):
+def f2lines(fname) -> list[str]:
     return list(map(lambda l: l.strip(), open(fname, 'r').readlines()))
 
 def s2ns(s: str) -> list[int]:
