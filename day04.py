@@ -1,5 +1,5 @@
 import utils
-import maps
+from maps import Map, Pos, Dirs
 import os.path
 
 dir_ = os.path.dirname(__file__)
@@ -12,16 +12,16 @@ rem = 'x' # removed
 @utils.timeit
 def part1(fname: str) -> int:
     res = 0
-    m = maps.Map(fname)
+    m = Map(fname)
     for p in m.find_all(rop):
         if accessible(m, p):
             res += 1
     return res
 
-def accessible(m: maps.Map, p: maps.Pos) -> bool:
+def accessible(m: Map, p: Pos) -> bool:
     res = 0
-    for d in maps.ds: # all 8
-        if m.get(p.x + d[0], p.y + d[1]) == rop:
+    for d in Dirs: # all 8
+        if m.get(p.x + d.x, p.y + d.y) == rop:
             res += 1
     return res < 4
 
@@ -31,7 +31,7 @@ def do1():
 
 @utils.timeit
 def part2(fname: str) -> int:
-    m = maps.Map(fname)
+    m = Map(fname)
     ps = set(m.find_all(rop))
     res = 0
     while True:
