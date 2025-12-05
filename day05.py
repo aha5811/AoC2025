@@ -10,17 +10,16 @@ def part1(fname: str) -> int:
     res = 0
     ranges = []
     for l in utils.f2lines(fname):
-        if len(l) > 0:
-            if '-' in l:
-                ranges.append(list(map(int, l.split('-'))))
-            else:
-                if is_in(int(l), ranges):
-                    res += 1
+        if '-' in l:
+            ranges.append(tuple(map(int, l.split('-'))))
+        elif (len(l) > 0 and
+              is_in(int(l), ranges)):
+            res += 1
     return res
 
-def is_in(id_, ranges):
+def is_in(n, ranges):
     for r in ranges:
-        if r[0] <= id_ <= r[1]:
+        if r[0] <= n <= r[1]:
             return True
     return False
 
@@ -33,8 +32,8 @@ def part2naive(fname: str) -> int:
     ids = set()
     for l in utils.f2lines(fname):
         if '-' in l:
-            range_ = list(map(int, l.split('-')))
-            for n in range(range_[0], range_[1] + 1):
+            r = tuple(map(int, l.split('-')))
+            for n in range(r[0], r[1] + 1):
                 ids.add(n)
     return len(ids)
 
@@ -44,7 +43,7 @@ class Range:
         self.end = end
 
 @utils.timeit
-def part2proper(fname: str) -> int:
+def part2(fname: str) -> int:
     ranges = list(
         map(lambda t: Range(t[0], t[1]),
             map(lambda l: tuple(map(int, l.split('-'))),
@@ -72,5 +71,5 @@ def part2proper(fname: str) -> int:
 
 def do2():
     assert 14 == part2naive(ftest)
-    assert 14 == part2proper(ftest)
-    assert 352716206375547 == part2proper(finput)
+    assert 14 == part2(ftest)
+    assert 352716206375547 == part2(finput)

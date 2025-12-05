@@ -11,19 +11,11 @@ rem = 'x' # removed
 
 @utils.timeit
 def part1(fname: str) -> int:
-    res = 0
     m = Map(fname)
-    for p in m.find_all(rop):
-        if accessible(m, p):
-            res += 1
-    return res
+    return sum(1 for p in m.find_all(rop) if is_accessible(m, p))
 
-def accessible(m: Map, p: Pos) -> bool:
-    res = 0
-    for d in Dirs: # all 8
-        if m.get(p.x + d.x, p.y + d.y) == rop:
-            res += 1
-    return res < 4
+def is_accessible(m: Map, p: Pos) -> bool:
+    return sum(1 for d in Dirs if m.get(p.x + d.x, p.y + d.y) == rop) < 4
 
 def do1():
     assert 13 == part1(ftest)
@@ -33,18 +25,17 @@ def do1():
 def part2(fname: str) -> int:
     m = Map(fname)
     ps = set(m.find_all(rop))
-    res = 0
+    ps_len_start = len(ps)
     while True:
         remove = set()
         for p in ps:
-            if accessible(m, p):
+            if is_accessible(m, p):
                 m.set(p.x, p.y, rem)
-                res += 1
                 remove.add(p)
         if not remove:
             break
         ps -= remove
-    return res
+    return ps_len_start - len(ps)
 
 def do2():
     assert 43 == part2(ftest)
