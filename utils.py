@@ -12,6 +12,9 @@ def timeit(func: callable):
         return result
     return timeit_wrapper
 
+def f2lines_nostrip(fname) -> list[str]:
+    return open(fname, 'r').readlines()
+
 def f2lines(fname) -> list[str]:
     return list(map(lambda l: l.strip(), open(fname, 'r').readlines()))
 
