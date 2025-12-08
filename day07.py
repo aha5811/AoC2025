@@ -9,16 +9,11 @@ finput = os.path.join(dir_, 'day07_input.txt')
 @utils.timeit
 def part1(fname: str) -> int:
     res = 0
-
     m = Map(fname)
-    # it's always one line with S or ^ then an empty line - but we don't use that
-
     ts = m.find_all('S')
     while True:
         next_y = ts[0].y + 1
-
         if m.get(0, next_y) is None: break
-
         ts_next = []
         for t in ts:
             if m.get(t.x, next_y) == '^':
@@ -27,9 +22,7 @@ def part1(fname: str) -> int:
                 add(ts_next, t.x + 1, next_y)
             else:
                 add(ts_next, t.x, next_y)
-
         ts = ts_next
-
     return res
 
 def add(ps: list[Pos], x: int, y: int):
@@ -43,16 +36,11 @@ def do1():
 
 @utils.timeit
 def part2(fname: str) -> int:
-
     m = Map(fname)
-
     ts = [(m.find_all('S')[0], 1)]
-
     while True:
         next_y = ts[0][0].y + 1
-
         if m.get(0, next_y) is None: break
-
         ts_next = []
         for t in ts:
             (p, cnt) = t
@@ -61,9 +49,7 @@ def part2(fname: str) -> int:
                 add2(ts_next, p.x + 1, next_y, cnt)
             else:
                 add2(ts_next, p.x, next_y, cnt)
-
         ts = ts_next
-
     return sum(map(lambda t: t[1], ts))
 
 def add2(ts: list[tuple[Pos, int]], x: int, y: int, cnt: int):
