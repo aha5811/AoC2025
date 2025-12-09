@@ -9,23 +9,16 @@ finput = os.path.join(dir_, 'day09_input.txt')
 
 @utils.timeit
 def part1(fname: str) -> int:
-    points = read_points(fname)
+    points = list(map(lambda l: Pos(*utils.s2is(l, ',')), utils.f2lines(fname)))
     a_max = 0
-    for p1 in points:
-        for p2 in points:
-            if p1 is p2: continue
-            a_max = max(a_max, a(p1, p2))
+    for n1, p1 in enumerate(points):
+        for n2, p2 in enumerate(points):
+            if n2 > n1:
+                a_max = max(a_max, a(p1, p2))
     return a_max
 
 def a(p1: Pos, p2: Pos) -> int:
     return (abs(p1.x - p2.x) + 1) * (abs(p1.y - p2.y) + 1)
-
-def read_points(fname: str) -> list[Pos]:
-    res = []
-    for l in utils.f2lines(fname):
-        t = utils.s2is(l, ',')
-        res.append(Pos(t[0], t[1]))
-    return res
 
 def do1():
     assert 50 == part1(ftest)
@@ -35,7 +28,7 @@ from shapely import Point, Polygon, box
 
 @utils.timeit
 def part2(fname: str):
-    points = list(map(lambda t: Point(*t), map(lambda l: utils.s2is(l, ','), utils.f2lines(fname))))
+    points = list(map(lambda l: Point(*utils.s2is(l, ',')), utils.f2lines(fname)))
     hull_points = points + [points[0]]
     hull = Polygon(hull_points) # close
     a_max = 0
@@ -49,7 +42,7 @@ def part2(fname: str):
                 if b.within(hull):
                     a_max = a_
                     b_max = b
-    # plot(hull_points, list(map(lambda t: Point(*t), list(b_max.boundary.coords))))
+    # plot(hull_points, list(map(lambda t: Point(*t), b_max.boundary.coords)))
     return a_max
 
 def aa(p1: Point, p2: Point) -> int:
@@ -62,8 +55,8 @@ def do2():
 # ----------------------
 
 from matplotlib import pyplot
-from matplotlib.patches import PathPatch
 from matplotlib.path import Path
+from matplotlib.patches import PathPatch
 
 def plot(hull_points: list[Point], box_points: list[Point]):
     # hull_points
@@ -74,7 +67,7 @@ def plot(hull_points: list[Point], box_points: list[Point]):
     codes += [Path.MOVETO] + [Path.LINETO] * (len(box_points) - 1)
     #
     path = Path(vertices, codes)
-    path_patch = PathPatch(path, facecolor='none', edgecolor='green')
+    path_patch = PathPatch(path, facecolor='mistyrose', edgecolor='darkgreen')
     fig, ax = pyplot.subplots()
     ax.add_patch(path_patch)
     ax.set_title(f'{len(hull_points)} points')
