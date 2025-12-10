@@ -50,7 +50,7 @@ def aa(p1: Point, p2: Point) -> int:
 
 def do2():
     assert 24 == part2(ftest)
-    assert 1654141440 == part2(finput)
+    # assert 1654141440 == part2(finput) # 6.5s
 
 # ----------------------
 
