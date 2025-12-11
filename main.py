@@ -1,5 +1,5 @@
 import day01, day02, day03, day04, day05, day06, day07, day08, day09, day10, day11, day12
-
+"""
 print('day01')
 day01.do1()
 day01.do2()
@@ -30,9 +30,10 @@ day09.do2()
 print('day10')
 day10.do1()
 day10.do2()
-#print('day11')
-#day11.do1()
-#day11.do2()
+"""
+print('day11')
+day11.do1()
+day11.do2()
 #print('day12')
 #day12.do1()
 #day12.do2()
