@@ -67,7 +67,7 @@ def push_button_1(config: list[bool], button: tuple[int, ...]) -> list[bool]:
     return ret
 
 def read_buttons(line: str) -> list[tuple[int, ...]]:
-    return [tuple(utils.s2is(g, ',')) for g in re.findall(r"\(([\d,]+)\)", line)]
+    return [tuple(utils.s2is(g, ',')) for g in re.findall(r"\(([\\d,]+)\)", line)]
 
 def do1():
     assert 7 == part1(ftest)

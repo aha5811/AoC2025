@@ -59,6 +59,8 @@ def do1():
     assert 5 == part1(ftest1)
     assert 428 == part1(finput)
 
+# ----------------------------------------------- v1
+
 @utils.timeit
 def part2_v1(fname: str) -> int:
     # get all paths, count all with must have nodes
@@ -82,6 +84,8 @@ def get_paths(n: Node, path: list[Node], target: Node) -> list[list[Node]]:
         ret += get_paths(c, path + [n], target)
     return ret
 
+# ----------------------------------------------- v2
+
 @utils.timeit
 def part2_v2(fname: str) -> int:
     # cnt all paths, only cnt paths with must have nodes
@@ -101,6 +105,8 @@ def cnt_paths_v2(n: Node, path: list[Node], target: Node, must_contain: list[Nod
         ret += cnt_paths_v2(c, path + [n], target, must_contain)
     return ret
 
+# ----------------------------------------------- v3
+
 @utils.timeit
 def part2_v3(fname: str) -> int:
     out, start = 'out', 'svr'
@@ -115,6 +121,8 @@ def part2_v3(fname: str) -> int:
         res = cnt_paths(n_start, [], n_must2) * p21 * cnt_paths(n_must1, [], n_end)
     print(res)
     return res
+
+# ----------------------------------------------- v4
 
 @utils.timeit
 def part2_v4(fname: str) -> int:
@@ -157,11 +165,11 @@ def cnt4(start: str, target: str, c2ps: dict[str, list[str]]) -> int:
             break
     return 0
 
+# -----------------------------------------------
+
 def do2():
     assert 2 == part2_v1(ftest2)
     assert 2 == part2_v2(ftest2)
     assert 2 == part2_v3(ftest2)
     assert 2 == part2_v4(ftest2)
     assert 2212708605659763 == part2_v4(finput) # too high
-
-do2()
